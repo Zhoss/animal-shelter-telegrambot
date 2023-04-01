@@ -41,10 +41,30 @@ CREATE TABLE daily_reports
     carer_id    BIGINT CHECK (carer_id > 0) REFERENCES carers (id),
     dog_id      BIGINT CHECK (dog_id > 0) REFERENCES dogs (id),
     description TEXT         NOT NULL,
-    photo       OID        NOT NULL,
+    photo       OID          NOT NULL,
     file_path   VARCHAR(255) NOT NULL,
     file_size   BIGINT       NOT NULL CHECK (file_size > 0),
     media_type  VARCHAR(255) NOT NULL
 );
+
+-- changeset dzhosan:2
+DROP TABLE dogs CASCADE;
+
+DROP TABLE agreements CASCADE;
+
+ALTER TABLE carers
+    ALTER COLUMN phone_number SET DATA TYPE char(16);
+ALTER TABLE carers DROP COLUMN passport_number;
+ALTER TABLE carers DROP COLUMN dog_id;
+ALTER TABLE carers DROP COLUMN agreement_id;
+
+ALTER TABLE daily_reports
+    ADD report_date DATE NOT NULL;
+ALTER TABLE daily_reports
+    ADD dog_diet TEXT NOT NULL;
+ALTER TABLE daily_reports
+    ADD dog_health TEXT NOT NULL;
+ALTER TABLE daily_reports
+    ADD dog_behavior TEXT NOT NULL;
 
 

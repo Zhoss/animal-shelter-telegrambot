@@ -6,8 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.JoinColumn;
 
 import java.util.Objects;
 @Entity
@@ -19,16 +17,8 @@ public class Carer {
     @Column(name = "full_name", nullable = false)
     private String fullName;
     private int age;
-    @Column(name = "passport_number")
-    private String passportNumber;
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", columnDefinition = "bpchar", length = 16, nullable = false)
     private String phoneNumber;
-    @OneToOne
-    @JoinColumn(name = "dog_id", referencedColumnName = "id")
-    private Dog dog;
-    @OneToOne
-    @JoinColumn(name = "agreement_id", referencedColumnName = "id")
-    private Agreement agreement;
 
     public Carer() {
 
@@ -58,14 +48,6 @@ public class Carer {
         this.age = age;
     }
 
-    public String getPassportNumber() {
-        return passportNumber;
-    }
-
-    public void setPassportNumber(String passportNumber) {
-        this.passportNumber = passportNumber;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -93,7 +75,6 @@ public class Carer {
                 "id = " + id +
                 ", ФИО = " + fullName +
                 ", возраст = " + age +
-                ", номер паспорта = " + passportNumber +
                 ", контактный телефон = " + phoneNumber;
     }
 }

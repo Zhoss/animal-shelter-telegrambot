@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -28,10 +29,16 @@ public class DailyReport {
     private long fileSize;
     @Column(name = "media_type", nullable = false)
     private String mediaType;
+    @Column(name = "report_date", nullable = false)
+    private LocalDate reportDate;
+    @Column(name = "dog_diet", nullable = false)
+    private String dogDiet;
+    @Column(name = "dog_health", nullable = false)
+    private String dogHealth;
+    @Column(name = "dog_behavior", nullable = false)
+    private String dogBehavior;
     @OneToOne
     private Carer carer;
-    @OneToOne
-    private Dog dog;
 
     public DailyReport() {
 
@@ -83,6 +90,38 @@ public class DailyReport {
 
     public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
+    }
+
+    public LocalDate getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(LocalDate reportDate) {
+        this.reportDate = reportDate;
+    }
+
+    public String getDogDiet() {
+        return dogDiet;
+    }
+
+    public void setDogDiet(String dogDiet) {
+        this.dogDiet = dogDiet;
+    }
+
+    public String getDogHealth() {
+        return dogHealth;
+    }
+
+    public void setDogHealth(String dogHealth) {
+        this.dogHealth = dogHealth;
+    }
+
+    public String getDogBehavior() {
+        return dogBehavior;
+    }
+
+    public void setDogBehavior(String dogBehavior) {
+        this.dogBehavior = dogBehavior;
     }
 
     @Override
