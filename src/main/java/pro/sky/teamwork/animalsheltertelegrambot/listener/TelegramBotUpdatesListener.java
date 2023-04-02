@@ -92,7 +92,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                         номер телефона:
                                         e-mail:
                                         """);
-                        SendPhoto sendPhoto = new SendPhoto(chatId, new File("C:/Users/zhoss/OneDrive/Рабочий стол/redaktirovat-kartu.png"));
+                        SendPhoto sendPhoto = new SendPhoto(chatId, new File("C:/Users/zhoss/OneDrive/Рабочий стол/redaktirovat-kartu.png")); //указать расположение изображения со схемой проезда
                         telegramBot.execute(sendMessage);
                         telegramBot.execute(sendPhoto);
                     } else if (message.equals(SHELTER_SAFETY_RECOMMENDATIONS_COMMAND.command())) {
