@@ -70,11 +70,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (update.message() != null) {
                     String message = update.message().text();
                     long chatId = update.message().chat().id();
-                    Pattern clientContactPattern = Pattern.compile("([А-я\\s]+)(\\s)(\\+\\d{1,7}\\(\\d{3}\\)\\d{7})");
+                    Pattern clientContactPattern = Pattern.compile(
+                            "([А-я\\s]+)(\\s)(\\+\\d{1,7}\\(\\d{3}\\)\\d{7})");
                     Matcher matcher = clientContactPattern.matcher(message);
 
                     if (message.equals(START_COMMAND.command())) {
-                        SendMessage response = new SendMessage(chatId, "Добрый день! Меня зовут AnimalShelterBot. Я отвечаю на популярные вопросы о том, что нужно знать и уметь, чтобы забрать собаку из приюта.");
+                        SendMessage response = new SendMessage(chatId,
+                                "Добрый день! Меня зовут AnimalShelterBot. Я отвечаю на популярные\n" +
+                                        " вопросы о том, что нужно знать и уметь, чтобы забрать собаку\n" +
+                                        " из приюта.");
                         telegramBot.execute(response);
                         startCommandMenu(chatId);
                     } else if (matcher.matches()) {
@@ -82,8 +86,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String clientPhoneNumber = matcher.group(3);
 
                         carerService.addCarer(clientName, clientPhoneNumber);
-                        SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID, "Прошу связаться с клиентом " + clientName + " по телефону " + clientPhoneNumber);
-                        SendMessage sendMessageForClient = new SendMessage(chatId, "Ваши контактные данные записаны. Волонтеры свяжутся с Вами в ближайшее время.");
+                        SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID,
+                                "Прошу связаться с клиентом " + clientName + " по телефону "
+                                        + clientPhoneNumber);
+                        SendMessage sendMessageForClient = new SendMessage(chatId,
+                                "Ваши контактные данные записаны. Волонтеры свяжутся с Вами в ближайшее время.");
                         telegramBot.execute(sendMessageForVolunteer);
                         telegramBot.execute(sendMessageForClient);
                     }
@@ -97,7 +104,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     if (message.equals(SHELTER_INFO_COMMAND.command())) {
                         shelterInfoCommandMenu(chatId);
                     } else if (message.equals(SHELTER_MAIN_INFO_COMMAND.command())) {
-                        SendMessage sendMessage = new SendMessage(chatId, "Основная информация о приюте"); //заполнить по факту
+                        SendMessage sendMessage = new SendMessage(chatId,
+                                "Основная информация о приюте"); //заполнить по факту
                         telegramBot.execute(sendMessage);
                     } else if (message.equals(SHELTER_WORK_SCHEDULE_COMMAND.command())) {
                         SendMessage sendMessage = new SendMessage(chatId, //заполнить по факту
@@ -106,23 +114,29 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                         номер телефона:
                                         e-mail:
                                         """);
-                        SendPhoto sendPhoto = new SendPhoto(chatId, new File("C:/Users/zhoss/OneDrive/Рабочий стол/redaktirovat-kartu.png"));
+                        SendPhoto sendPhoto = new SendPhoto(chatId,
+                                new File("C:/Users/zhoss/OneDrive/Рабочий стол/redaktirovat-kartu.png"));
                         telegramBot.execute(sendMessage);
                         telegramBot.execute(sendPhoto);
                     } else if (message.equals(SHELTER_SAFETY_RECOMMENDATIONS_COMMAND.command())) {
-                        SendMessage sendMessage = new SendMessage(chatId, "Рекомендации о технике безопасности на территории приюта"); //заполнить по факту
+                        SendMessage sendMessage = new SendMessage(chatId,
+                                "Рекомендации о технике безопасности на территории приюта"); //заполнить по факту
                         telegramBot.execute(sendMessage);
                     } else if (message.equals(WRITE_CLIENT_CONTACT_COMMAND.command())) {
 
-                        SendMessage sendMessage = new SendMessage(chatId, "Прошу написать Ваши ФИО и контактный телефон в формате" +
+                        SendMessage sendMessage = new SendMessage(chatId, "Прошу написать Ваши ФИО и \n" +
+                                "контактный телефон в формате" +
                                 "+7(ХХХ)ХХХХХХХ.");
                         telegramBot.execute(sendMessage);
                     } else if (message.equals(CALL_VOLUNTEER_COMMAND.command())) {
                         long clientId = update.callbackQuery().from().id();
                         String clientFirstName = update.callbackQuery().from().firstName();
                         String clientLastName = update.callbackQuery().from().lastName();
-                        SendMessage sendMessageForClient = new SendMessage(chatId, "Волонтер свяжется с Вами в ближайшее время");
-                        SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID, "Необходимо связаться с клиентом " + clientFirstName + " " + clientLastName + " " + "[User link](tg://user?id=" + clientId + " )");
+                        SendMessage sendMessageForClient = new SendMessage(chatId,
+                                "Волонтер свяжется с Вами в ближайшее время");
+                        SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID,
+                                "Необходимо связаться с клиентом " + clientFirstName + " "
+                                        + clientLastName + " " + "[User link](tg://user?id=" + clientId + " )");
                         sendMessageForVolunteer.parseMode(ParseMode.Markdown);
                         telegramBot.execute(sendMessageForClient);
                         telegramBot.execute(sendMessageForVolunteer);
