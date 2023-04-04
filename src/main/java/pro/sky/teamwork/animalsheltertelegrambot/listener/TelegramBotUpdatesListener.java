@@ -37,14 +37,54 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * Константа указывающая ID волонтера
      */
     private final static long VOLUNTEER_CHAT_ID = 1140085807; //указать id чата волонтеров, сейчас это мой личный ID
-    public final static BotCommand START_COMMAND = new BotCommand("/start", "Основное меню");
-    public final static BotCommand SHELTER_INFO_COMMAND = new BotCommand("/shelter_info", "Меню с информацией о приюте");
-    public final static BotCommand SHELTER_MAIN_INFO_COMMAND = new BotCommand("/shelter_main_info", "Основная информация о приюте");
-    public final static BotCommand SHELTER_WORK_SCHEDULE_COMMAND = new BotCommand("/shelter_work_schedule", "Информация о расписании работы приюта, адресе, схеме проезда, контактной информации");
-    public final static BotCommand SHELTER_SAFETY_RECOMMENDATIONS_COMMAND = new BotCommand("/shelter_safety_recommendations", "Рекомендации о технике безопасности на территории приюта");
-    public final static BotCommand WRITE_CLIENT_CONTACT_COMMAND = new BotCommand("/write_contact_information", "Записать контактные данные для связи с волонтерами");
-    public final static BotCommand CALL_VOLUNTEER_COMMAND = new BotCommand("/call_volunteer", "Позвать волонтера");
-    public final static BotCommand BACK_COMMAND = new BotCommand("/back", "Вернуться назад");
+    public final static BotCommand START_COMMAND = new BotCommand("/start",
+            "Основное меню");
+    public final static BotCommand SHELTER_INFO_COMMAND = new BotCommand("/shelter_info",
+            "Меню с информацией о приюте");
+    public final static BotCommand SHELTER_MAIN_INFO_COMMAND = new BotCommand(
+            "/shelter_main_info", "Основная информация о приюте");
+    public final static BotCommand SHELTER_WORK_SCHEDULE_COMMAND = new BotCommand(
+            "/shelter_work_schedule", "Информация о расписании работы приюта,\n" +
+            " адресе, схеме проезда, контактной информации");
+    public final static BotCommand SHELTER_SAFETY_RECOMMENDATIONS_COMMAND = new BotCommand(
+            "/shelter_safety_recommendations", "Рекомендации о технике\n" +
+            " безопасности на территории приюта");
+    public final static BotCommand WRITE_CLIENT_CONTACT_COMMAND = new BotCommand(
+            "/write_contact_information", "Записать контактные данные для\n" +
+            " связи с волонтерами");
+    public final static BotCommand CALL_VOLUNTEER_COMMAND = new BotCommand(
+            "/call_volunteer", "Позвать волонтера");
+    public final static BotCommand BACK_COMMAND = new BotCommand("/back",
+            "Вернуться назад");
+
+    public final static BotCommand TAKE_A_DOG_COMMAND = new BotCommand("/take_dog",
+            "Как взять собаку из приюта");
+    public final static BotCommand INTRODUCTION_TO_DOG_COMMAND = new BotCommand(
+            "/intro_dog","Узнать правила знакомства с собакой");
+    public final static BotCommand TAKE_DOCUMENTS_LIST_COMMAND = new BotCommand(
+            "/take_doc_list","Получить список документов");
+
+    public final static BotCommand TRANSFER_A_DOG_COMMAND = new BotCommand("/transfer_dog",
+            "Транспортировка животного");
+    public final static BotCommand ENVIRONMENT_FOR_PUPPY_COMMAND = new BotCommand(
+            "/puppy_environment", "Обустройство дома для щенка");
+    public final static BotCommand ENVIRONMENT_FOR_DOG_COMMAND = new BotCommand(
+            "/dog_environment", "Обустройство дома для взрослой собаки");
+
+    public final static BotCommand ENVIRONMENT_FOR_LIMITED_DOG_COMMAND = new BotCommand(
+            "/limited_dog_environment", "Обустройство дома для собаки\n" +
+            " с ограниченными возможностями");
+    public final static BotCommand CYNOLOGIST_ADVICES_COMMAND = new BotCommand(
+            "/cynologist_advices", "советы кинолога" +
+            " с ограниченными возможностями");
+    public final static BotCommand CYNOLOGIST_CONTACTS_COMMAND = new BotCommand(
+            "/cynologist_contacts", "Контакты проверенных кинологов");
+    public final static BotCommand USUAL_REFUSALS_COMMAND = new BotCommand(
+            "/usual_refusals",
+            "Частые причины отказов в выдаче собаки кандидату");
+    public final static BotCommand SEND_REPORT_COMMAND = new BotCommand("/send_report",
+            "Отправить отчет о питомце");
+
 
     public TelegramBotUpdatesListener(TelegramBot telegramBot, CarerService carerService) {
         this.telegramBot = telegramBot;
@@ -76,8 +116,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                     if (message.equals(START_COMMAND.command())) {
                         SendMessage response = new SendMessage(chatId,
-                                "Добрый день! Меня зовут AnimalShelterBot. Я отвечаю на популярные\n" +
-                                        " вопросы о том, что нужно знать и уметь, чтобы забрать собаку\n" +
+                                "Добрый день! Меня зовут AnimalShelterBot. Я отвечаю на\n" +
+                                        " популярные\n" +
+                                        " вопросы о том, что нужно знать и уметь, чтобы забрать\n" +
+                                        " собаку\n" +
                                         " из приюта.");
                         telegramBot.execute(response);
                         startCommandMenu(chatId);
@@ -98,7 +140,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     String message = update.callbackQuery().data();
                     String callBackQueryId = update.callbackQuery().id();
                     long chatId = update.callbackQuery().message().chat().id();
-                    AnswerCallbackQuery callbackQuery = new AnswerCallbackQuery(callBackQueryId).showAlert(false);
+                    AnswerCallbackQuery callbackQuery = new AnswerCallbackQuery(callBackQueryId)
+                            .showAlert(false);
                     telegramBot.execute(callbackQuery);
 
                     if (message.equals(SHELTER_INFO_COMMAND.command())) {
@@ -157,6 +200,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * <br> при обращении выдается сообщение через <b>SendMessage</b>, которое ссылается на класс {@link SendMessage}
      * <br> если текст вводится в строке команды, то бот инициализирует его и переводит запрос по <b>callbackData</b>,
      * в ином случае прожимается кнопка соответствующей команды.
+     *
      * @param chatId
      */
     private void startCommandMenu(long chatId) {
@@ -178,6 +222,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * Метод описывающий кнопки в начальном окне бота.
      * <br> если текст вводится в строке команды, то бот инициализирует его и переводит запрос по <b>callbackData</b>,
      * в ином случае прожимается кнопка соответствующей команды.
+     *
      * @param chatId
      */
     private void shelterInfoCommandMenu(long chatId) {
