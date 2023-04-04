@@ -60,14 +60,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public final static BotCommand TAKE_A_DOG_COMMAND = new BotCommand("/take_dog",
             "Как взять собаку из приюта");
     public final static BotCommand INTRODUCTION_TO_DOG_COMMAND = new BotCommand(
-            "/intro_dog","Узнать правила знакомства с собакой");
+            "/intro_dog", "Узнать правила знакомства с собакой");
     public final static BotCommand TAKE_DOCUMENTS_LIST_COMMAND = new BotCommand(
-            "/take_doc_list","Получить список документов");
+            "/take_doc_list", "Получить список документов");
 
     public final static BotCommand TRANSFER_A_DOG_COMMAND = new BotCommand("/transfer_dog",
             "Транспортировка животного");
     public final static BotCommand ENVIRONMENT_FOR_PUPPY_COMMAND = new BotCommand(
-            "/puppy_environment", "Обустройство дома для щенка");
+            "/puppy_environment", "Обустройство" +
+            " дома для щенка");
     public final static BotCommand ENVIRONMENT_FOR_DOG_COMMAND = new BotCommand(
             "/dog_environment", "Обустройство дома для взрослой собаки");
 
@@ -83,7 +84,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             "/usual_refusals",
             "Частые причины отказов в выдаче собаки кандидату");
     public final static BotCommand SEND_REPORT_COMMAND = new BotCommand("/send_report",
-            "Отправить отчет о питомце");
+            "Прислать отчет о питомце");
 
 
     public TelegramBotUpdatesListener(TelegramBot telegramBot, CarerService carerService) {
@@ -146,9 +147,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                     if (message.equals(SHELTER_INFO_COMMAND.command())) {
                         shelterInfoCommandMenu(chatId);
+                    } else if (message.equals(TAKE_A_DOG_COMMAND.command())) {
+                        takeDogCommandMenu(chatId);
+                    } else if (message.equals(SEND_REPORT_COMMAND.command())) {
+                        sendReportCommandMenu(chatId);
                     } else if (message.equals(SHELTER_MAIN_INFO_COMMAND.command())) {
                         SendMessage sendMessage = new SendMessage(chatId,
-                                "Основная информация о приюте"); //заполнить по факту
+                                "Заполнить основной инфой о приюте"); //заполнить по факту
                         telegramBot.execute(sendMessage);
                     } else if (message.equals(SHELTER_WORK_SCHEDULE_COMMAND.command())) {
                         SendMessage sendMessage = new SendMessage(chatId, //заполнить по факту
@@ -185,10 +190,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         telegramBot.execute(sendMessageForVolunteer);
                     } else if (message.equals(BACK_COMMAND.command())) {
                         startCommandMenu(chatId);
+                    } else {
+                        SendMessage sendMessage = new SendMessage(chatId, "Неизвестная комманда");
+                        telegramBot.execute(sendMessage);
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
@@ -197,8 +206,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     /**
      * Метод описывающий кнопки в начальном окне бота.
      *
-     * <br> при обращении выдается сообщение через <b>SendMessage</b>, которое ссылается на класс {@link SendMessage}
-     * <br> если текст вводится в строке команды, то бот инициализирует его и переводит запрос по <b>callbackData</b>,
+     * <br> при обращении выдается сообщение через <b>SendMessage</b>, которое ссылается
+     * на класс {@link SendMessage}
+     * <br> если текст вводится в строке команды, то бот инициализирует его и переводит
+     * запрос по <b>callbackData</b>,
      * в ином случае прожимается кнопка соответствующей команды.
      *
      * @param chatId
@@ -206,14 +217,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void startCommandMenu(long chatId) {
         List<InlineKeyboardButton> buttons = new ArrayList<>(List.of(
                 new InlineKeyboardButton("Узнать информацию о приюте").callbackData("/shelter_info"),
-                new InlineKeyboardButton("Как взять собаку из приюта").callbackData("/how_to_adopt_the_dog"),
-                new InlineKeyboardButton("Прислать отчет о питомце").callbackData("/send_a_report"),
+                new InlineKeyboardButton("Как взять собаку из приюта")
+                        .callbackData("/take_dog"),
+                new InlineKeyboardButton("Прислать отчет о питомце").callbackData("/send_report"),
                 new InlineKeyboardButton("Позвать волонтера").callbackData("/call_volunteer")
         ));
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
-        buttons.forEach(button -> keyboard.addRow(button));
+        buttons.forEach(keyboard::addRow);
 
-        SendMessage response = new SendMessage(chatId, "Что Вы хотите узнать?");
+        SendMessage response = new SendMessage(chatId, "Что бы Вы хотели узнать?");
         response.replyMarkup(keyboard);
         telegramBot.execute(response);
     }
@@ -228,17 +240,93 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void shelterInfoCommandMenu(long chatId) {
         List<InlineKeyboardButton> buttons = new ArrayList<>(List.of(
                 new InlineKeyboardButton("Основная информация").callbackData("/shelter_main_info"),
-                new InlineKeyboardButton("Расписание работы, адрес, схема проезда, контактная информация").callbackData("/shelter_work_schedule"),
-                new InlineKeyboardButton("Общие рекомендации о технике безопасности на территории приюта").callbackData("/shelter_safety_recommendations"),
-                new InlineKeyboardButton("Записать Ваши контактные данные для связи").callbackData("/write_contact_information"),
+                new InlineKeyboardButton("Расписание работы, адрес, схема проезда, контактная\n" +
+                        " информация").callbackData("/shelter_work_schedule"),
+                new InlineKeyboardButton("Общие рекомендации о технике безопасности на территории\n" +
+                        " приюта").callbackData("/shelter_safety_recommendations"),
+                new InlineKeyboardButton("Записать Ваши контактные данные для связи")
+                        .callbackData("/write_contact_information"),
                 new InlineKeyboardButton("Позвать волонтера").callbackData("/call_volunteer"),
                 new InlineKeyboardButton("Вернуться назад").callbackData("/back")
         ));
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
-        buttons.forEach(button -> keyboard.addRow(button));
+        buttons.forEach(keyboard::addRow);
 
-        SendMessage response = new SendMessage(chatId, "Добрый день! Здесь Вы можете узнать основную информацию о нашем приюте.");
+        SendMessage response = new SendMessage(chatId, "Добрый день! Здесь Вы можете узнать\n" +
+                " основную информацию о нашем приюте.");
         response.replyMarkup(keyboard);
         telegramBot.execute(response);
     }
+
+    private void takeDogCommandMenu(long chatId) {
+        List<InlineKeyboardButton> buttons = new ArrayList<>(List.of(
+                new InlineKeyboardButton("Узнать правила знакомства с собакой")
+                        .callbackData("/intro_dog"),
+
+                new InlineKeyboardButton("Получить список документов")
+                        .callbackData("/take_doc_list"),
+
+                new InlineKeyboardButton("Транспортировка животного")
+                        .callbackData("/transfer_dog"),
+
+                new InlineKeyboardButton("Обустройство дома для щенка")
+                        .callbackData("/puppy_environment"),
+
+                new InlineKeyboardButton("Обустройство дома для взрослой собаки")
+                        .callbackData("/dog_environment"),
+
+                new InlineKeyboardButton("Обустройство дома для собаки с ограниченными возможностями")
+                        .callbackData("/limited_dog_environment"),
+
+                new InlineKeyboardButton("советы кинолога")
+                        .callbackData("/cynologist_advices"),
+
+                new InlineKeyboardButton("Контакты проверенных кинологов")
+                        .callbackData("/cynologist_contacts"),
+
+                new InlineKeyboardButton("Частые причины отказов в выдаче собаки кандидату")
+                        .callbackData("/usual_refusals"),
+
+                new InlineKeyboardButton("Записать Ваши контактные данные для связи")
+                        .callbackData("/write_contact_information"),
+
+                new InlineKeyboardButton("Позвать волонтера").callbackData("/call_volunteer"),
+                new InlineKeyboardButton("Вернуться назад").callbackData("/back")
+        ));
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
+        buttons.forEach(keyboard::addRow);
+
+        SendMessage response = new SendMessage(chatId, "Добрый день! Здесь Вы можете узнать\n" +
+                " как взять собаку из приюта.");
+        response.replyMarkup(keyboard);
+        telegramBot.execute(response);
+    }
+   private void sendReportCommandMenu(long chatId) {
+        List<InlineKeyboardButton> buttons = new ArrayList<>(List.of(
+                new InlineKeyboardButton("Сфотайте на телефон и пришлите фото питомца.")
+                        .callbackData("/"),
+
+                new InlineKeyboardButton("Пришлите сегодняшний рацион питомца")
+                        .callbackData("/"),
+
+                new InlineKeyboardButton("Опишите общее самочуствие и привыкание к новому\n" +
+                        " месту питомца")
+                        .callbackData("/"),
+
+                new InlineKeyboardButton("Опишите изменение в поведении питомца: отказ от старых\n" +
+                        " привычек, приобретение новых")
+                        .callbackData("/"),
+
+                new InlineKeyboardButton("Позвать волонтера").callbackData("/call_volunteer"),
+                new InlineKeyboardButton("Вернуться назад").callbackData("/back")
+        ));
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
+        buttons.forEach(keyboard::addRow);
+
+        SendMessage response = new SendMessage(chatId, "Здесь Вы можете узнать\n" +
+                " как отправить отчёт о питомце.");
+        response.replyMarkup(keyboard);
+        telegramBot.execute(response);
+    }
+
 }
