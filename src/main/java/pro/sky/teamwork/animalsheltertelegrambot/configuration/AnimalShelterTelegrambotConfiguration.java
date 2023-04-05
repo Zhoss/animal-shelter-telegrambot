@@ -18,7 +18,7 @@ public class AnimalShelterTelegrambotConfiguration {
     bot.execute(new DeleteMyCommands());
     bot.execute(new SetMyCommands(
             new BotCommand("/start", "Вывод основного меню Этап 0"),
-            new BotCommand("/help","Узнать информацию о приюте")));
+            new BotCommand("/info","Узнать информацию о приюте")));
         return bot;
     }
 }
