@@ -126,6 +126,53 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         startCommandMenu(chatId);
                     } else if (message.equals(SHELTER_INFO_COMMAND.command())) {
                         shelterInfoCommandMenu(chatId);
+                    } else if (message.equals(SHELTER_MAIN_INFO_COMMAND.command())) {
+                        SendMessage sendMessage = new SendMessage(chatId,
+                                "Заполнить основной инфой о приюте"); //заполнить по факту
+                        telegramBot.execute(sendMessage);
+                    } else if (message.equals(SHELTER_WORK_SCHEDULE_COMMAND.command())) {
+                        sendShelterContacts(chatId);
+                    } else if (message.equals(SHELTER_SAFETY_RECOMMENDATIONS_COMMAND.command())) {
+                        SendMessage sendMessage = new SendMessage(chatId,
+                                "Рекомендации о технике безопасности на территории приюта");
+                        //заполнить по факту
+                        telegramBot.execute(sendMessage);
+                    } else if (message.equals(WRITE_CLIENT_CONTACT_COMMAND.command())) {
+                        SendMessage sendMessage = new SendMessage(chatId, "Прошу написать Ваши ФИО и \n" +
+                                "контактный телефон в формате" +
+                                "+7(ХХХ)ХХХХХХХ.");
+                        telegramBot.execute(sendMessage);
+                    } else if (message.equals(CALL_VOLUNTEER_COMMAND.command())) {
+                        long clientId = update.message().from().id();
+                        String clientFirsName = update.message().from().firstName();
+                        String clientLastName = update.message().from().lastName();
+                        sendCallVolunteerCommand(chatId, clientId, clientFirsName, clientLastName);
+                    } else if (message.equals(BACK_COMMAND.command())) {
+                        startCommandMenu(chatId);
+                    } else if (message.equals(TAKE_A_DOG_COMMAND.command())) {
+                        takeDogCommandMenu(chatId);
+                    } else if (message.equals(INTRODUCTION_TO_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(TAKE_DOCUMENTS_LIST_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(TRANSFER_A_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(ENVIRONMENT_FOR_PUPPY_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(ENVIRONMENT_FOR_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(ENVIRONMENT_FOR_LIMITED_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(CYNOLOGIST_ADVICES_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(CYNOLOGIST_CONTACTS_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(USUAL_REFUSALS_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(SEND_REPORT_COMMAND.command())) {
+                        sendReportCommandMenu(chatId);
+
+
                     } else if (matcher.matches()) {
                         String clientName = matcher.group(1);
                         String clientPhoneNumber = matcher.group(3);
@@ -139,7 +186,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                         " в ближайшее время.");
                         telegramBot.execute(sendMessageForVolunteer);
                         telegramBot.execute(sendMessageForClient);
+                    } else {
+                        SendMessage sendMessage = new SendMessage(chatId, "Неизвестная комманда");
+                        telegramBot.execute(sendMessage);
                     }
+
+
                 } else if (update.message() == null && update.callbackQuery() != null) {
                     String message = update.callbackQuery().data();
                     String callBackQueryId = update.callbackQuery().id();
@@ -152,6 +204,24 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         shelterInfoCommandMenu(chatId);
                     } else if (message.equals(TAKE_A_DOG_COMMAND.command())) {
                         takeDogCommandMenu(chatId);
+                    } else if (message.equals(INTRODUCTION_TO_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    } else if (message.equals(TAKE_DOCUMENTS_LIST_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    }else if (message.equals(TRANSFER_A_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    }else if (message.equals(ENVIRONMENT_FOR_PUPPY_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    }else if (message.equals(ENVIRONMENT_FOR_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    }else if (message.equals(ENVIRONMENT_FOR_LIMITED_DOG_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    }else if (message.equals(CYNOLOGIST_ADVICES_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    }else if (message.equals(CYNOLOGIST_CONTACTS_COMMAND.command())) {
+                        sendPlainText(chatId);
+                    }else if (message.equals(USUAL_REFUSALS_COMMAND.command())) {
+                        sendPlainText(chatId);
                     } else if (message.equals(SEND_REPORT_COMMAND.command())) {
                         sendReportCommandMenu(chatId);
                     } else if (message.equals(SHELTER_MAIN_INFO_COMMAND.command())) {
@@ -159,24 +229,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 "Заполнить основной инфой о приюте"); //заполнить по факту
                         telegramBot.execute(sendMessage);
                     } else if (message.equals(SHELTER_WORK_SCHEDULE_COMMAND.command())) {
-                        SendMessage sendMessage = new SendMessage(chatId, //заполнить по факту
-                                """
-                                        Расписание работы приюта:
-                                        номер телефона:
-                                        e-mail:
-                                        """);
-                        SendPhoto sendPhoto = new SendPhoto(chatId,
-                                new File("C:/Users/zhoss/OneDrive/\n" +
-                                        "Рабочий стол/redaktirovat-kartu.png"));
-                        telegramBot.execute(sendMessage);
-                        telegramBot.execute(sendPhoto);
+                        sendShelterContacts(chatId);
                     } else if (message.equals(SHELTER_SAFETY_RECOMMENDATIONS_COMMAND.command())) {
                         SendMessage sendMessage = new SendMessage(chatId,
                                 "Рекомендации о технике безопасности на территории приюта");
                         //заполнить по факту
                         telegramBot.execute(sendMessage);
                     } else if (message.equals(WRITE_CLIENT_CONTACT_COMMAND.command())) {
-
                         SendMessage sendMessage = new SendMessage(chatId, "Прошу написать Ваши ФИО и \n" +
                                 "контактный телефон в формате" +
                                 "+7(ХХХ)ХХХХХХХ.");
@@ -185,15 +244,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         long clientId = update.callbackQuery().from().id();
                         String clientFirstName = update.callbackQuery().from().firstName();
                         String clientLastName = update.callbackQuery().from().lastName();
-                        SendMessage sendMessageForClient = new SendMessage(chatId,
-                                "Волонтер свяжется с Вами в ближайшее время");
-                        SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID,
-                                "Необходимо связаться с клиентом " + clientFirstName + " "
-                                        + clientLastName + " " + "[User link](tg://user?id="
-                                        + clientId + " )");
-                        sendMessageForVolunteer.parseMode(ParseMode.Markdown);
-                        telegramBot.execute(sendMessageForClient);
-                        telegramBot.execute(sendMessageForVolunteer);
+                        sendCallVolunteerCommand(chatId, clientId, clientFirstName,
+                                clientLastName);
+
                     } else if (message.equals(BACK_COMMAND.command())) {
                         startCommandMenu(chatId);
                     } else {
@@ -207,6 +260,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             e.printStackTrace();
         }
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
+    }
+
+    public void sendShelterContacts(long chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, //заполнить по факту
+                """
+                        Расписание работы приюта:
+                        номер телефона:
+                        e-mail:
+                        """);
+        SendPhoto sendPhoto = new SendPhoto(chatId,
+                new File("C:/Users/zhoss/OneDrive/\n" +
+                        "Рабочий стол/redaktirovat-kartu.png"));
+        telegramBot.execute(sendMessage);
+        telegramBot.execute(sendPhoto);
     }
 
     /**
@@ -309,7 +376,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         response.replyMarkup(keyboard);
         telegramBot.execute(response);
     }
-   private void sendReportCommandMenu(long chatId) {
+
+    private void sendReportCommandMenu(long chatId) {
         List<InlineKeyboardButton> buttons = new ArrayList<>(List.of(
                 new InlineKeyboardButton("Сфотайте на телефон и пришлите фото питомца.")
                         .callbackData("/"),
@@ -335,6 +403,23 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 " как отправить отчёт о питомце.");
         response.replyMarkup(keyboard);
         telegramBot.execute(response);
+    }
+
+    public void sendCallVolunteerCommand(long chatId, long clientId, String clientFirstName,
+                                         String clientLastName) {
+        SendMessage sendMessageForClient = new SendMessage(chatId,
+                "Волонтер свяжется с Вами в ближайшее время");
+        SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID,
+                "Необходимо связаться с клиентом " + clientFirstName + " "
+                        + clientLastName + " " + "[User link](tg://user?id="
+                        + clientId + " )");
+        sendMessageForVolunteer.parseMode(ParseMode.Markdown);
+        telegramBot.execute(sendMessageForClient);
+        telegramBot.execute(sendMessageForVolunteer);
+    }
+
+    public void sendPlainText(long chatId) {
+        telegramBot.execute(new SendMessage(chatId, "Заполнить необходимой инфой"));
     }
 
 }
