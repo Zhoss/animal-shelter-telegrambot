@@ -81,7 +81,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String clientName = matcher.group(1);
                         String clientPhoneNumber = matcher.group(3);
 
-                        carerService.addCarer(clientName, clientPhoneNumber);
+                        carerService.addCarer(clientName, 20, clientPhoneNumber);
                         SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID, "Прошу связаться с клиентом " + clientName + " по телефону " + clientPhoneNumber);
                         SendMessage sendMessageForClient = new SendMessage(chatId, "Ваши контактные данные записаны. Волонтеры свяжутся с Вами в ближайшее время.");
                         telegramBot.execute(sendMessageForVolunteer);
@@ -106,7 +106,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                         номер телефона:
                                         e-mail:
                                         """);
-                        SendPhoto sendPhoto = new SendPhoto(chatId, new File("C:/Users/zhoss/OneDrive/Рабочий стол/redaktirovat-kartu.png")); //указать расположение изображения со схемой проезда
+                        SendPhoto sendPhoto = new SendPhoto(chatId, new File("src/redaktirovat-kartu.png"));
                         telegramBot.execute(sendMessage);
                         telegramBot.execute(sendPhoto);
                     } else if (message.equals(SHELTER_SAFETY_RECOMMENDATIONS_COMMAND.command())) {
