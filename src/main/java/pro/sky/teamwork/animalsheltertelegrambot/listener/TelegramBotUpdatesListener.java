@@ -23,19 +23,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author VitaliyK (commit)
- * <br>
- * Класс описывающий константы и работу класса
- */
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
     private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
     private final TelegramBot telegramBot;
     private final CarerService carerService;
-    /**
-     * Константа указывающая ID волонтера
-     */
     private final static long VOLUNTEER_CHAT_ID = 1140085807; //указать id чата волонтеров, сейчас это мой личный ID
     public final static BotCommand START_COMMAND = new BotCommand("/start", "Основное меню");
     public final static BotCommand SHELTER_INFO_COMMAND = new BotCommand("/shelter_info", "Меню с информацией о приюте");
@@ -56,12 +48,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         telegramBot.setUpdatesListener(this);
     }
 
-    /**
-     * Метод описывающий логику работы меню приветсвия и рабу с константами
-     *
-     * @param updates расширение на класс {@link Update} телеграммбота
-     * @return возврат к началу списка
-     */
     @Override
     public int process(List<Update> updates) {
         try {
@@ -137,14 +123,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    /**
-     * Метод описывающий кнопки в начальном окне бота.
-     *
-     * <br> при обращении выдается сообщение через <b>SendMessage</b>, которое ссылается на класс {@link SendMessage}
-     * <br> если текст вводится в строке команды, то бот инициализирует его и переводит запрос по <b>callbackData</b>,
-     * в ином случае прожимается кнопка соответствующей команды.
-     * @param chatId
-     */
     private void startCommandMenu(long chatId) {
         List<InlineKeyboardButton> buttons = new ArrayList<>(List.of(
                 new InlineKeyboardButton("Узнать информацию о приюте").callbackData("/shelter_info"),
@@ -160,12 +138,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         telegramBot.execute(response);
     }
 
-    /**
-     * Метод описывающий кнопки в начальном окне бота.
-     * <br> если текст вводится в строке команды, то бот инициализирует его и переводит запрос по <b>callbackData</b>,
-     * в ином случае прожимается кнопка соответствующей команды.
-     * @param chatId
-     */
     private void shelterInfoCommandMenu(long chatId) {
         List<InlineKeyboardButton> buttons = new ArrayList<>(List.of(
                 new InlineKeyboardButton("Основная информация").callbackData("/shelter_main_info"),

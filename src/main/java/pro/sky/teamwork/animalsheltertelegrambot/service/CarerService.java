@@ -13,16 +13,8 @@ public class CarerService {
         this.carerRepository = carerRepository;
     }
 
-    /**
-     *Добавление данных об опекуне животного
-     *
-     * @param fullName <b>ФИО</b>
-     * @param phoneNumber <b>Телефонный номер</b>
-     * <br>//@param setAge <b>Возраст</b>
-     * @see CarerRepository
-     */
     @Transactional
-    public void addCarer(String fullName, String phoneNumber){
+    public void addCarer(String fullName, String phoneNumber) {
         Carer carer = new Carer();
         carer.setFullName(fullName);
         carer.setPhoneNumber(phoneNumber);
