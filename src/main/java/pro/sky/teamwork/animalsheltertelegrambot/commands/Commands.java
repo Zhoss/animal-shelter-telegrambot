@@ -24,12 +24,6 @@ public class Commands {
     public static final String SHELTER_LEAVE_CONTACTS_COMMAND = "leaveContacts";
     public static final String GREET_MSG = "Welcome to bot!";
 
-    /**
-     * Метод с командами
-     * @param command должен быть не {@link @NotNull}
-     * @param message вывод сообщения
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
     public void handleCommand(String command, Message message, TelegramBot bot) {
         switch (command) {
             case START_COMMAND -> handleStartCommand(message, bot);
@@ -47,11 +41,6 @@ public class Commands {
         }
     }
 
-    /**
-     * Метод команды /Start
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
     private void handleStartCommand(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -69,11 +58,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод сообщения приветствия
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleGreetMessage(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -83,11 +68,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который выдает список возможных команд (/help)
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleHelpCommand(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -103,11 +84,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который выдает список с кнопками возможных команд и приветственное сообщзение. (первый список команд)
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleInfoCommand(Message message, TelegramBot bot) {
         List<InlineKeyboardButton> inlineKeyboardButtons = List.of(
                 new InlineKeyboardButton("Узнать о приюте").callbackData("shelterInfo"),
@@ -131,11 +108,7 @@ public class Commands {
         response.replyMarkup(keyboard);
         bot.execute(response);
     }
-    /**
-     * Метод который выдает информацию, как забрать собаку из приюта
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleHowToTakeADog(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -146,11 +119,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который вызывает волонтера
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleCallVolunteer(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -161,11 +130,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который выдает информацию о приюте
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleShelterInfo(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -176,11 +141,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который выдает расписание приюта
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleShelterSchedule(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -191,11 +152,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который выдает местоположение приюта
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleShelterLocation(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -206,11 +163,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который выдает информацию о технике безопасности на территории приюта
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleShelterSafetyPrecautions(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -221,11 +174,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод который собирает информацию (контактные данные)
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleLeaveContacts(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
@@ -236,11 +185,7 @@ public class Commands {
         );
         bot.execute(response);
     }
-    /**
-     * Метод выдает сообщение - "Извините, я не понимаю эту команду.", если введена неверная команда.
-     * @param message вывод сообщения (NotNull)
-     * @param bot ссылается на класс {@link TelegramBot}
-     */
+
     private void handleUnknownCommand(Message message, TelegramBot bot) {
         SendMessage response = new SendMessage(
                 message.chat().id(),
