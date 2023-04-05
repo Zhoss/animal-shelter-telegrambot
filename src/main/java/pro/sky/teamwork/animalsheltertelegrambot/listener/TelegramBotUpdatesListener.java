@@ -124,6 +124,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                         " из приюта.");
                         telegramBot.execute(response);
                         startCommandMenu(chatId);
+                    } else if (message.equals(SHELTER_INFO_COMMAND.command())) {
+                        shelterInfoCommandMenu(chatId);
                     } else if (matcher.matches()) {
                         String clientName = matcher.group(1);
                         String clientPhoneNumber = matcher.group(3);
@@ -133,7 +135,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 "Прошу связаться с клиентом " + clientName + " по телефону "
                                         + clientPhoneNumber);
                         SendMessage sendMessageForClient = new SendMessage(chatId,
-                                "Ваши контактные данные записаны. Волонтеры свяжутся с Вами в ближайшее время.");
+                                "Ваши контактные данные записаны. Волонтеры свяжутся с Вами\n" +
+                                        " в ближайшее время.");
                         telegramBot.execute(sendMessageForVolunteer);
                         telegramBot.execute(sendMessageForClient);
                     }
@@ -163,12 +166,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                         e-mail:
                                         """);
                         SendPhoto sendPhoto = new SendPhoto(chatId,
-                                new File("C:/Users/zhoss/OneDrive/Рабочий стол/redaktirovat-kartu.png"));
+                                new File("C:/Users/zhoss/OneDrive/\n" +
+                                        "Рабочий стол/redaktirovat-kartu.png"));
                         telegramBot.execute(sendMessage);
                         telegramBot.execute(sendPhoto);
                     } else if (message.equals(SHELTER_SAFETY_RECOMMENDATIONS_COMMAND.command())) {
                         SendMessage sendMessage = new SendMessage(chatId,
-                                "Рекомендации о технике безопасности на территории приюта"); //заполнить по факту
+                                "Рекомендации о технике безопасности на территории приюта");
+                        //заполнить по факту
                         telegramBot.execute(sendMessage);
                     } else if (message.equals(WRITE_CLIENT_CONTACT_COMMAND.command())) {
 
@@ -184,7 +189,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 "Волонтер свяжется с Вами в ближайшее время");
                         SendMessage sendMessageForVolunteer = new SendMessage(VOLUNTEER_CHAT_ID,
                                 "Необходимо связаться с клиентом " + clientFirstName + " "
-                                        + clientLastName + " " + "[User link](tg://user?id=" + clientId + " )");
+                                        + clientLastName + " " + "[User link](tg://user?id="
+                                        + clientId + " )");
                         sendMessageForVolunteer.parseMode(ParseMode.Markdown);
                         telegramBot.execute(sendMessageForClient);
                         telegramBot.execute(sendMessageForVolunteer);
@@ -232,7 +238,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     /**
      * Метод описывающий кнопки в начальном окне бота.
-     * <br> если текст вводится в строке команды, то бот инициализирует его и переводит запрос по <b>callbackData</b>,
+     * <br> если текст вводится в строке команды, то бот инициализирует его и переводит запрос
+     * по <b>callbackData</b>,
      * в ином случае прожимается кнопка соответствующей команды.
      *
      * @param chatId
@@ -242,7 +249,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 new InlineKeyboardButton("Основная информация").callbackData("/shelter_main_info"),
                 new InlineKeyboardButton("Расписание работы, адрес, схема проезда, контактная\n" +
                         " информация").callbackData("/shelter_work_schedule"),
-                new InlineKeyboardButton("Общие рекомендации о технике безопасности на территории\n" +
+                new InlineKeyboardButton("Общие рекомендации о технике безопасности на территории\n"
+                        +
                         " приюта").callbackData("/shelter_safety_recommendations"),
                 new InlineKeyboardButton("Записать Ваши контактные данные для связи")
                         .callbackData("/write_contact_information"),
